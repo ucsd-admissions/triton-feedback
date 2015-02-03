@@ -16,10 +16,12 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular.min.js',
+      'https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular-cookies.js',
       'https://cdn.firebase.com/js/client/2.0.4/firebase.js',
       'https://cdn.firebase.com/libs/angularfire/0.9.2/angularfire.min.js',
       'angular-mocks.js',
-      '../src/**/*.js'
+      '../src/**/*.js',
+      '../test/**/*.js'
     ],
 
 
