@@ -9,6 +9,7 @@ var uglify = require( 'gulp-uglify' );
 var chmod = require( 'gulp-chmod' ); 
 var sass = require( 'gulp-sass' );
 var filter = require( 'gulp-filter' );
+var karma = require( 'karma' ).server;
 
 
 /* -------------------------------------------------------------------------- *
@@ -95,7 +96,17 @@ gulp.task( 'watch', function(){
 
 
 /* -------------------------------------------------------------------------- *
+ * KARMA
+ * -------------------------------------------------------------------------- */
+gulp.task( 'karma', function( done ){
+	return karma.start({
+    configFile: __dirname + '/test/karma.conf.js'
+  }, done );
+});
+
+
+/* -------------------------------------------------------------------------- *
  * GO GO GADGET GULP
  * -------------------------------------------------------------------------- */
-gulp.task( 'default', ['sync', 'watch'] );
+gulp.task( 'default', ['sync', 'watch', 'karma'] );
 
