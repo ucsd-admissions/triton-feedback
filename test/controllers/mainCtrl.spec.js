@@ -91,7 +91,7 @@ describe( 'Main Controller', function(){
 			var $scope = {}, mainCtrl = $controller( 'mainCtrl', { $scope: $scope } );
 			$scope.feedback = { foo: 'bar' };
 			$scope.resetFeedback();
-			expect( $scope.feedback ).toEqual( {} );
+			expect( $scope.feedback ).toEqual( { message: null, category: 'broken' } );
 		});
 	});
 

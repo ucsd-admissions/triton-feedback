@@ -1,8 +1,15 @@
 <a class='trifi-bug' data-ng-click='open()' data-ng-hide='visible'>Feedback</a>
-<div class='trifi-body'>
-	<h2 class='trifi-title'>Leave Feedback</h2>
-	<div class='trifi-error' data-ng-show='error'>Database error.</div>
-	<textarea class='trifi-textarea' data-ng-model='feedback.message'></textarea>
-	<a class='trifi-submit-button' data-ng-click='submitFeedback()'>Submit</a>
-	<a class='trifi-close-button' data-ng-click='close()'>Close</a>
+<div class='trifi-frame'>
+	<div class='trifi-body'>
+		<h2 class='trifi-title'>Leave Feedback</h2>
+		<p class='trifi-message'>Thanks for helping us test the new Triton Day website! As you navigate the site, jot down your thoughts and impressions here, hitting "Submit" after each. You can be as specific or general as you like. Your identity will not be recorded, but some specs like your browser, device, and operating system will. Your feedback will help make the Triton Day website a success for everyone!</p>
+		<div class='trifi-error' data-ng-show='error'>Database error.</div>
+		<p class='trifi-success' data-ng-show='showConfirmation'>Thanks! Your feedback was submitted. Feel free to add more!</p>
+		<span class='trifi-label'>I noticed something that was:</span>
+		<select class='trifi-select' data-ng-model='feedback.category' data-ng-options='value for value in feedbackCategories'>
+		</select>
+		<textarea class='trifi-textarea' data-ng-model='feedback.message' placeholder='Comments'></textarea>
+		<a class='trifi-submit-button' data-ng-click='submitFeedback()'>Submit</a>
+		<a class='trifi-close-button' data-ng-click='close()'>Close</a>
+	</div>
 </div>

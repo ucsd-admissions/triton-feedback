@@ -1,4 +1,4 @@
-angular.module( 'tritonFeedback' ).service( 'firebaseManager', function( tritonFeedbackData ){
+angular.module( 'tritonFeedback' ).service( 'firebaseManager', function( tritonFeedbackData, $cookies ){
 	'use strict';
 
 	var _this = this;
@@ -8,6 +8,8 @@ angular.module( 'tritonFeedback' ).service( 'firebaseManager', function( tritonF
 	 * ------------------------------------------------------------------------ */
 
 	this.firebaseName = tritonFeedbackData.firebase;
+
+	this.connection = null;
 
 	this.connected = false;
 
@@ -22,10 +24,9 @@ angular.module( 'tritonFeedback' ).service( 'firebaseManager', function( tritonF
 			return false;
 		}
 
-		var connection = new Firebase( 'https://' + _this.firebaseName + '.firebaseio.com/' );
+		_this.connection = new Firebase( 'https://' + _this.firebaseName + '.firebaseio.com/' );
 
-		if( connection ){
-			_this.connected = true;
+		if( _this.connection ){
 			return true;
 		} else {
 			return false;
@@ -34,23 +35,12 @@ angular.module( 'tritonFeedback' ).service( 'firebaseManager', function( tritonF
 
 	this.push = function( data, callback ){
 
-		if( ! _this.connected ){
+		if( ! _this.connection ){
 			return false; 
 		}
 
-		var ref = connection.child( 'tickets' );
-		ref.push(
-			{
-				time: new Date().getTime(),
-				session: $cookies.triton_feedback_session,
-				browser: $scope.env.browser,
-				device: $scope.env.device,
-				os: $scope.env.os,
-				path: $scope.path,
-				message: $scope.feedback.message 
-			},
-			callback
-		);
+		var ref = _this.connection.child( 'tickets' );
+		ref.push( data, callback );
 
 		return true;
 

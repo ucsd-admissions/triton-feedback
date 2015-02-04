@@ -1,4 +1,4 @@
-angular.module( 'tritonFeedback' ).controller( 'mainCtrl', function( $scope, $cookies, tritonFeedbackData, deviceDetector, firebaseManager ){
+angular.module( 'tritonFeedback' ).controller( 'mainCtrl', function( $scope, $cookies, tritonFeedbackData, deviceDetector, firebaseManager, $timeout ){
 	'use strict';
 
 	var _this = this;
@@ -10,6 +10,8 @@ angular.module( 'tritonFeedback' ).controller( 'mainCtrl', function( $scope, $co
 	$scope.authenticated = false;
 
 	$scope.visible = false;
+
+	$scope.showConfirmation = false;
 
 	$scope.env = {
 		browser: deviceDetector.browser,
@@ -23,9 +25,21 @@ angular.module( 'tritonFeedback' ).controller( 'mainCtrl', function( $scope, $co
 
 	$scope.firebase = firebaseManager;
 
-	$scope.feedback = {};
+	$scope.feedback = {
+		message: null,
+		category: 'broken'
+	};
 
 	$scope.wp = null;
+
+	$scope.feedbackCategories = [
+		'broken',
+		'awesome',
+		'surprising',
+		'confusing',
+		'annoying',
+		'other'
+	];
 
 
 	/* ------------------------------------------------------------------------ *
@@ -70,7 +84,8 @@ angular.module( 'tritonFeedback' ).controller( 'mainCtrl', function( $scope, $co
 				device: $scope.env.device,
 				os: $scope.env.os,
 				path: $scope.path,
-				message: $scope.feedback.message 
+				message: $scope.feedback.message,
+				category: $scope.feedback.category
 			},
 			$scope.callback
 		);
@@ -93,7 +108,14 @@ angular.module( 'tritonFeedback' ).controller( 'mainCtrl', function( $scope, $co
 	};
 
 	$scope.resetFeedback = function(){
-		$scope.feedback = {};
+		$scope.feedback = {
+			message:null,
+			category:'broken'
+		};
+		$scope.showConfirmation = true;
+		$timeout( function(){
+			$scope.showConfirmation = false;
+		}, 5000 );
 	};
 
 
@@ -111,7 +133,10 @@ angular.module( 'tritonFeedback' ).controller( 'mainCtrl', function( $scope, $co
 
 		$scope.wp = tritonFeedbackData;
 
-		$scope.firebase.connect() || $scope.throw();
+		var connected = $scope.firebase.connect();
+		if( ! connected ){
+			$scope.throw();
+		}
 
 	};
 

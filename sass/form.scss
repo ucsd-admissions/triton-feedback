@@ -23,7 +23,7 @@
 	text-align:center;
 }
 
-.trifi-body{
+.trifi-frame{
 	@extend %clearfix;
 	@include transition( right 300ms ease );
 	position:fixed;
@@ -32,7 +32,6 @@
 	height:100%;
 	background-color:#eee;
 	width:90%;
-	padding:2em;
 	z-index:100;
 	border-left:1px solid #222;
 
@@ -46,8 +45,23 @@
 	}
 }
 
+.trifi-body{
+	@include transform( translate3d(0,0,0) );
+	position:absolute;
+	top:0;
+	right:0;
+	bottom:0;
+	left:0;
+	overflow:scroll;
+	padding:2em;
+}
+
 .trifi-title{
 	font-size:1.8em;
+	font-weight:bold;
+}
+
+.trifi-label{
 	font-weight:bold;
 }
 
@@ -58,7 +72,13 @@
 	height:200px;
 	margin:0 0 1em;
 	padding:0.5em;
-	font-size:1.2em;
+	font-size:1.1em;
+}
+
+.trifi-select{
+	font-size:1.1em;
+	width:100%;
+	margin:0.5em 0;
 }
 
 .trifi-submit-button{
@@ -73,6 +93,13 @@
 	background-color:#ccc;
 	border:1px solid #222;
 	float:left;
+}
+
+.trifi-success{
+	padding:1em;
+	border:1px solid green;
+	background-color:#dfffdd;
+	margin-bottom:1em;
 }
 
 .trifi-error{
