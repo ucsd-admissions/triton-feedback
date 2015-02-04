@@ -17,6 +17,7 @@ module.exports = function(config) {
     files: [
       'https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular.min.js',
       'https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular-cookies.js',
+      '../lib/ng-device-detector.min.js',
       'https://cdn.firebase.com/js/client/2.0.4/firebase.js',
       'https://cdn.firebase.com/libs/angularfire/0.9.2/angularfire.min.js',
       'angular-mocks.js',

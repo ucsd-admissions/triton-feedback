@@ -1,1 +1,1 @@
-angular.module( 'tritonFeedback', ['ngCookies'] );
+angular.module( 'tritonFeedback', ['ngCookies', 'ng.deviceDetector'] );

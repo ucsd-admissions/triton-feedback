@@ -1,32 +1,20 @@
 <?php
 class TritonFeedback{
 
-	public function authenticate(){
+	public function enabled(){
+		return get_option( 'trifi_enabled', false );
+	}
 
-		// Bail right away if not enabled
-		$enabled = get_option( 'trifi_enabled', false );
-		if( ! $enabled ){
-			return false;
-		}
-
-		// If user has access cookie, let them through
-		$cookie_exists = isset( $_COOKIE[ 'triton_feedback' ] );
-		if( $cookie_exists ){
-			return true;
-		}
-		
-		// If user is entering for the first time, check for query param
+	public function maybe_set_cookie(){
 		$param = get_option( 'trifi_param', 'test' );
 		$param_exists = $param && isset( $_GET[ $param ] );
 		if( $param_exists ){
 			// Set cookie for next page load; expires at end of session
-			setcookie( 'triton_feedback', true, 0, '/' );
-			return true;
+			setcookie( 'triton_feedback_access', true, 0, '/' );
+
+			$hashed_ip = md5( $_SERVER['REMOTE_ADDR'] );
+			setcookie( 'triton_feedback_session', $hashed_ip, 0, '/' );
 		}
-
-		// Nope.
-		return false;
-
 	}
 
 	public function register_frontend(){
@@ -35,6 +23,7 @@ class TritonFeedback{
 		wp_register_script( 'firebase', 'https://cdn.firebase.com/js/client/2.0.4/firebase.js', array( 'angularjs' ), null, true );
 		wp_register_script( 'angularfire', 'https://cdn.firebase.com/libs/angularfire/0.9.2/angularfire.min.js', array( 'angularjs', 'firebase' ), null, true );
 		wp_register_script( 'triton-feedback', plugins_url( 'js/tritonfeedback.min.js', __FILE__ ), array( 'angularjs', 'angular-cookies', 'firebase', 'angularfire' ), null, true );
+		wp_register_style( 'triton-feedback', plugins_url( 'css/tritonfeedback.css', __FILE__ ), array(), time() );
 	}
 
 	public function enqueue_frontend(){
@@ -42,23 +31,24 @@ class TritonFeedback{
 		wp_localize_script( 'triton-feedback', 'tritonFeedbackData', array(
 			'templateUrl' => plugins_url( 'src/template.html', __FILE__ )
 		) );
+		wp_enqueue_style( 'triton-feedback' );
 	}
 
 	public function print_template(){
 		?>
 
-		<div class='trifi' data-ng-app='tritonFeedback' data-ng-controller='mainCtrl' data-ng-include='getTemplate()'></div>
+		<div class='triton-feedback' data-ng-app='tritonFeedback' data-ng-controller='mainCtrl' data-ng-include='getTemplate()' data-ng-class="{visible:visible}"></div>
 
 		<?php
 	}
 	
 	public function __construct(){
 
-		$authenticated = $this->authenticate();
-
-		if( ! $authenticated ){
+		if( ! $this->enabled() ){
 			return;
 		}
+
+		$this->maybe_set_cookie();
 		
 		add_action( 'wp_enqueue_scripts', array( $this, 'register_frontend' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_frontend' ) );

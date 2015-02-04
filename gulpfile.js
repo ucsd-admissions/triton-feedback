@@ -9,7 +9,7 @@ var uglify = require( 'gulp-uglify' );
 var chmod = require( 'gulp-chmod' ); 
 var sass = require( 'gulp-sass' );
 var filter = require( 'gulp-filter' );
-var karma = require( 'karma' ).server;
+var rename = require( 'gulp-rename' );
 
 
 /* -------------------------------------------------------------------------- *
@@ -19,17 +19,13 @@ var config = {
 	sass: {
 		watch: 'sass/**/*.scss',
 		src: 'sass/main.scss',
-		dest: 'css'
+		dest: 'css',
+		name: 'tritonfeedback.css'
 	},
 	js: {
 		watch: 'src/**/*.js',
 		deps: [
-			'lib/jquery-ui.min.js',
-			'lib/jquery.ui.touch-punch.js',
-			'lib/jquery.videocover.js',
-			'lib/jquery.sticky-kit.min.js',
-			'lib/jquery.waypoints.min.js',
-			'lib/getEmPixels.min.js',
+			'lib/ng-device-detector.min.js'
 		],
 		src: [
 			'src/app.js',
@@ -80,6 +76,7 @@ gulp.task( 'js', function(){
 gulp.task( 'sass', function(){
   return gulp.src( config.sass.src )
     .pipe( sass({ outputStyle: 'compressed', errLogToConsole: true }) )
+    .pipe( rename( config.sass.name ) )
     .pipe( gulp.dest( config.sass.dest ) )
 		.pipe( filter( '**/*.css' ) )
     .pipe( browserSync.reload({ stream:true }) );
@@ -96,17 +93,7 @@ gulp.task( 'watch', function(){
 
 
 /* -------------------------------------------------------------------------- *
- * KARMA
- * -------------------------------------------------------------------------- */
-gulp.task( 'karma', function( done ){
-	return karma.start({
-    configFile: __dirname + '/test/karma.conf.js'
-  }, done );
-});
-
-
-/* -------------------------------------------------------------------------- *
  * GO GO GADGET GULP
  * -------------------------------------------------------------------------- */
-gulp.task( 'default', ['sync', 'watch', 'karma'] );
+gulp.task( 'default', ['sync', 'watch'] );
 

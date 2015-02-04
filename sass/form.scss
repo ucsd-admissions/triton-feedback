@@ -1,0 +1,80 @@
+.triton-feedback{
+	@include transition( right 300ms ease );
+	position:fixed;
+	top:0;
+	right:-$app-width;
+	bottom:0;
+	height:100%;
+	width:$app-width;
+	z-index:100;
+
+	&.visible{
+		right:0;
+	}
+
+	*{
+		font-family:'Helvetica Neue', 'Arial', sans-serif;
+	}
+
+	a{
+		color:#222;
+	}
+}
+
+.trifi-bug{
+	@include transform( rotate( -90deg ) );
+	@include transform-origin( 0 100% );
+	@include box-shadow( 0 -5px 10px rgba(0,0,0,0.13) );
+	position:absolute;
+	z-index:2;
+	top:50%;
+	left:0;
+	padding:10px;
+	background-color:#eee;
+	font-weight:500;
+	color:#222;
+	font-size:1.2em;
+}
+
+.trifi-body{
+	@extend %clearfix;
+	@include box-shadow( 0 -5px 10px rgba(0,0,0,0.13) );
+	padding:2em;
+	background-color:#eee;
+	height:100%;
+}
+
+.trifi-title{
+	font-size:1.8em;
+	font-weight:bold;
+}
+
+.trifi-textarea{
+	@include box-sizing( border-box );
+	display:block;
+	width:100%;
+	height:200px;
+	margin:0 0 1em;
+	padding:0.5em;
+	font-size:1.2em;
+}
+
+.trifi-submit{
+	@include box-shadow( -5px 5px 0 #ccc );
+	position:relative;
+	display:block;
+	float:right;
+	padding:1em;
+	background-color:#fff;
+	border:1px solid #222;
+
+	&:hover{
+		@include box-shadow( -5px 5px 0 #999 );
+	}
+
+	&:active{
+		@include box-shadow( none );
+		top:5px;
+		left:-5px;
+	}
+}
