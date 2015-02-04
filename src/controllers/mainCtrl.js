@@ -1,4 +1,4 @@
-angular.module( 'tritonFeedback' ).controller( 'mainCtrl', function( $scope, $cookies, getTritonFeedbackData, deviceDetector, $firebase ){
+angular.module( 'tritonFeedback' ).controller( 'mainCtrl', function( $scope, $cookies, tritonFeedbackData, deviceDetector, firebaseManager ){
 	'use strict';
 
 	var _this = this;
@@ -21,11 +21,11 @@ angular.module( 'tritonFeedback' ).controller( 'mainCtrl', function( $scope, $co
 
 	$scope.error = false;
 
-	$scope.wp = null;
-
-	$scope.firebase = null;
+	$scope.firebase = firebaseManager;
 
 	$scope.feedback = {};
+
+	$scope.wp = null;
 
 
 	/* ------------------------------------------------------------------------ *
@@ -62,8 +62,7 @@ angular.module( 'tritonFeedback' ).controller( 'mainCtrl', function( $scope, $co
 	};
 
 	$scope.submitFeedback = function(){
-		var ticketsRef = $scope.fb.child( 'tickets' );
-		ticketsRef.push(
+		var success = $scope.firebase.push(
 			{
 				time: new Date().getTime(),
 				session: $cookies.triton_feedback_session,
@@ -75,18 +74,26 @@ angular.module( 'tritonFeedback' ).controller( 'mainCtrl', function( $scope, $co
 			},
 			$scope.callback
 		);
+
+		if( ! success ){
+			$scope.throw();
+		}
 	};
 
 	$scope.callback = function( error ){
 		if( error ){
-			$scope.$apply( function(){
-				$scope.error = true;
-			});
+			$scope.$apply( $scope.error() );
 		} else {
-			$scope.$apply( function(){
-				$scope.feedback = {};
-			});
+			$scope.$apply( $scope.resetFeedback() );
 		}
+	};
+
+	$scope.throw = function(){
+		$scope.error = true;
+	};
+
+	$scope.resetFeedback = function(){
+		$scope.feedback = {};
 	};
 
 
@@ -102,13 +109,9 @@ angular.module( 'tritonFeedback' ).controller( 'mainCtrl', function( $scope, $co
 			return;
 		}
 
-		$scope.wp = getTritonFeedbackData();
+		$scope.wp = tritonFeedbackData;
 
-		$scope.firebase = this.connect( $scope.wp.firebase );
-
-		if( ! $scope.firebase ){
-			$scope.error = true;
-		}
+		$scope.firebase.connect() || $scope.throw();
 
 	};
 

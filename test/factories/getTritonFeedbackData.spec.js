@@ -1,6 +1,6 @@
 'use strict';
 
-describe( 'getTritonFeedbackData', function(){
+describe( 'tritonFeedbackData', function(){
 
 	beforeEach( module( 'tritonFeedback' ) );
 
@@ -12,10 +12,10 @@ describe( 'getTritonFeedbackData', function(){
 	 	var service;
 
 		inject( function( $injector ){
-			service = $injector.get( 'getTritonFeedbackData' );
+			service = $injector.get( 'tritonFeedbackData' );
 		});
 
-		expect( service().templateUrl ).toBe( 'url_from_wp' );
+		expect( service.templateUrl ).toBe( 'url_from_wp' );
 
 	});
 
@@ -26,11 +26,10 @@ describe( 'getTritonFeedbackData', function(){
 		var service;
 
 		inject( function( $injector ){
-			service = $injector.get( 'getTritonFeedbackData' );
+			service = $injector.get( 'tritonFeedbackData' );
 		});
 
-		expect( service().templateUrl ).toBe( 'wp-content/plugins/triton-feedback/src/template.html' );
-
+		expect( service.templateUrl ).toBe( 'wp-content/plugins/triton-feedback/src/template.html' );
 
 	});
 
