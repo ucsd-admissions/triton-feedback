@@ -1,10 +1,13 @@
 angular.module( 'tritonFeedback' ).factory( 'getTritonFeedbackData', function(){
 	'use strict';
 
-	this.defaultObject = {
-		templateUrl: 'wp-content/plugins/triton-feedback/src/template.html'
+	var defaults = {
+		templateUrl: 'wp-content/plugins/triton-feedback/src/template.html',
+		firebase: ''
 	};
 
-	return 'undefined' === typeof tritonFeedbackData ? this.defaultObject : tritonFeedbackData;
+	return function(){
+		return 'undefined' === typeof tritonFeedbackData ? defaults : tritonFeedbackData;
+	};
 
 });

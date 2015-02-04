@@ -11,41 +11,79 @@ describe( 'Main Controller', function(){
 		})
 	);
 
-	describe( 'getTemplate', function(){
+	describe( 'mainCtrl.authenticate', function(){
 
-		it( 'should return an empty string if cookie is NOT set', function(){
-			var $scope = {};
-			var $cookies = { triton_feedback_access: false };
-			var mainCtrl = $controller( 'mainCtrl', { $scope: $scope, $cookies: $cookies } );
-			expect( $scope.getTemplate() ).toEqual( '' );
+		it( 'should return false if cookie is undefined or falsy', function(){
+
+			var $scope = {}, mainCtrl = $controller( 'mainCtrl', { $scope: $scope } );
+
+			var falsyCookies = [
+				{},
+				{ triton_feedback_access: 0 },
+				{ triton_feedback_access: false }
+			];
+
+			angular.forEach( falsyCookies, function( cookie ){
+				expect( mainCtrl.authenticate( cookie ) ).toEqual( false ); 
+			});
+		
 		});
 
-		// We're not testing the specific URL here, just the getter mechanism.
-		it( 'should return a string if the cookie IS set', function(){
-			var $scope = {};
-			var $cookies = { triton_feedback_access: true };
-			var mainCtrl = $controller( 'mainCtrl', { $scope: $scope, $cookies: $cookies } );
-			expect( $scope.getTemplate() ).not.toEqual( '' );
+		it( 'should return true if cookie is truthy', function(){
+
+			var $scope = {}, mainCtrl = $controller( 'mainCtrl', { $scope: $scope } );
+			
+			var truthyCookies = [
+				{ triton_feedback_access: 1 },
+				{ triton_feedback_access: true },
+				{ triton_feedback_access: 'string' }
+			];
+
+			angular.forEach( truthyCookies, function( cookie ){
+				expect( mainCtrl.authenticate( cookie ) ).toEqual( true ); 
+			});
+
 		});
 
-	});
+		describe( 'getTemplate', function(){
 
-	describe( 'toggleVisibility', function(){
+			it( 'should return an empty string if not authenticated', function(){
+				var $scope = {}, mainCtrl = $controller( 'mainCtrl', { $scope: $scope } );
+				mainCtrl.authenticated = false;
+				expect( $scope.getTemplate() ).toEqual( '' );
+			});
 
-		it( 'should start invisible', function(){
-			var $scope = {};
-			var $cookies = { triton_feedback: true };
-			var mainCtrl = $controller( 'mainCtrl', { $scope: $scope, $cookies: $cookies } );
-			expect( $scope.visible ).toBe( false );
+			it( 'should return the template from wp if authenticated', function(){
+				var $scope = {}, mainCtrl = $controller( 'mainCtrl', { $scope: $scope } );
+				mainCtrl.authenticated = true;
+				$scope.wp = { templateUrl: 'a string' };
+				expect( $scope.getTemplate() ).toEqual( 'a string' );
+			});
+			
 		});
 
-		it( 'should be visible after calling toggleVisibility', function(){
-			var $scope = {};
-			var $cookies = { triton_feedback: true };
-			var mainCtrl = $controller( 'mainCtrl', { $scope: $scope, $cookies: $cookies } );
-			$scope.open();
-			expect( $scope.visible ).toBe( true );
+		describe( 'visibility', function(){
+
+			it( 'should start out invisible', function(){
+				var $scope = {}, mainCtrl = $controller( 'mainCtrl', { $scope: $scope } );
+				expect( $scope.visible ).toEqual( false );
+			});
+
+			it( 'should become visible after calling $scope.open', function(){
+				var $scope = {}, mainCtrl = $controller( 'mainCtrl', { $scope: $scope } );
+				$scope.open();
+				expect( $scope.visible ).toEqual( true );
+			});
+
+			it( 'should become invisible after calling $scope.close', function(){
+				var $scope = {}, mainCtrl = $controller( 'mainCtrl', { $scope: $scope } );
+				$scope.visible = true;
+				$scope.close();
+				expect( $scope.visible ).toEqual( false );
+			});
 		});
+
+
 
 	});
 

@@ -1,33 +1,38 @@
 'use strict';
 
-var getTritonFeedbackData;
-
-describe( 'getTritonFeedbackData service', function(){
+describe( 'getTritonFeedbackData', function(){
 
 	beforeEach( module( 'tritonFeedback' ) );
 
 	it( 'should return values from tritonFeedbackData if available', function(){
 
 		// Mocking the object written by WordPress
-	 	window.tritonFeedbackData = { templateUrl: 'wordpress data' }
+	 	window.tritonFeedbackData = { templateUrl: 'url_from_wp' };
 
-		inject( function( _getTritonFeedbackData_ ){
-  		getTritonFeedbackData = _getTritonFeedbackData_;
- 		});	
+	 	var service;
 
-		expect( getTritonFeedbackData.templateUrl ).toBe( 'wordpress data' );
+		inject( function( $injector ){
+			service = $injector.get( 'getTritonFeedbackData' );
+		});
+
+		expect( service().templateUrl ).toBe( 'url_from_wp' );
 
 	});
 
 	it( 'should return default values if tritonFeedbackData is unavailable', function(){
 		
 		delete window.tritonFeedbackData;
-		
-		inject( function( _getTritonFeedbackData_ ){
-  		getTritonFeedbackData = _getTritonFeedbackData_;
- 		});		
-		
-		expect( getTritonFeedbackData.templateUrl ).toBe( 'wp-content/plugins/triton-feedback/src/template.html' );
+
+		var service;
+
+		inject( function( $injector ){
+			service = $injector.get( 'getTritonFeedbackData' );
+		});
+
+		expect( service().templateUrl ).toBe( 'wp-content/plugins/triton-feedback/src/template.html' );
+
+
 	});
+
 
 });

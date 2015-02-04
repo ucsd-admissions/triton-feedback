@@ -1,12 +1,13 @@
 angular.module( 'tritonFeedback' ).controller( 'mainCtrl', function( $scope, $cookies, getTritonFeedbackData, deviceDetector, $firebase ){
 	'use strict';
 
-	var _this = this,
-	    feedbackData = getTritonFeedbackData;
+	var _this = this;
 
 	/* ------------------------------------------------------------------------ *
 	 * Model
 	 * ------------------------------------------------------------------------ */
+
+	$scope.authenticated = false;
 
 	$scope.visible = false;
 
@@ -20,7 +21,9 @@ angular.module( 'tritonFeedback' ).controller( 'mainCtrl', function( $scope, $co
 
 	$scope.error = false;
 
-	$scope.fb;
+	$scope.wp = null;
+
+	$scope.firebase = null;
 
 	$scope.feedback = {};
 
@@ -28,15 +31,16 @@ angular.module( 'tritonFeedback' ).controller( 'mainCtrl', function( $scope, $co
 	/* ------------------------------------------------------------------------ *
 	 * Internal
 	 * ------------------------------------------------------------------------ */
-	 
-	this.connect = function(){
-		var fb = new Firebase( 'https://' + feedbackData.firebase + '.firebaseio.com/' );
-		if( fb ){
-			return fb;
-		} else {
-			$scope.error = true;
-		}
-	}
+
+	this.authenticate = function( $cookies ){
+		var access = $cookies.triton_feedback_access;
+		return access ? true : false; 
+	};
+
+	this.connect = function( firebaseName ){
+		var connection = new Firebase( 'https://' + firebaseName + '.firebaseio.com/' );
+		return connection ? connection : null;
+	};
 
 
 	/* ------------------------------------------------------------------------ *
@@ -44,8 +48,7 @@ angular.module( 'tritonFeedback' ).controller( 'mainCtrl', function( $scope, $co
 	 * ------------------------------------------------------------------------ */
 
 	$scope.getTemplate = function(){
-		var authenticated = $cookies.triton_feedback_access;
-		return authenticated ? feedbackData.templateUrl : '';
+		return _this.authenticated ? $scope.wp.templateUrl : '';
 	};
 
 	$scope.open = function(){
@@ -60,7 +63,6 @@ angular.module( 'tritonFeedback' ).controller( 'mainCtrl', function( $scope, $co
 
 	$scope.submitFeedback = function(){
 		var ticketsRef = $scope.fb.child( 'tickets' );
-
 		ticketsRef.push(
 			{
 				time: new Date().getTime(),
@@ -71,11 +73,11 @@ angular.module( 'tritonFeedback' ).controller( 'mainCtrl', function( $scope, $co
 				path: $scope.path,
 				message: $scope.feedback.message 
 			},
-			$scope.pushed
+			$scope.callback
 		);
 	};
 
-	$scope.pushed = function( error ){
+	$scope.callback = function( error ){
 		if( error ){
 			$scope.$apply( function(){
 				$scope.error = true;
@@ -83,7 +85,7 @@ angular.module( 'tritonFeedback' ).controller( 'mainCtrl', function( $scope, $co
 		} else {
 			$scope.$apply( function(){
 				$scope.feedback = {};
-		});
+			});
 		}
 	};
 
@@ -92,6 +94,24 @@ angular.module( 'tritonFeedback' ).controller( 'mainCtrl', function( $scope, $co
 	 * Init
 	 * ------------------------------------------------------------------------ */
 
-	$scope.fb = this.connect();
+	this.init = function(){
+
+		_this.authenticated = _this.authenticate( $cookies );
+
+		if( ! _this.authenticated ){
+			return;
+		}
+
+		$scope.wp = getTritonFeedbackData();
+
+		$scope.firebase = this.connect( $scope.wp.firebase );
+
+		if( ! $scope.firebase ){
+			$scope.error = true;
+		}
+
+	};
+
+	this.init();
 
 });
