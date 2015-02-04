@@ -42,6 +42,10 @@ class TritonFeedbackSettings{
 		add_settings_field( 'trifi_param', 'Access Parameter', array( $this, 'render_setting_trifi_param' ), 'triton_feedback', 'general' );
 		register_setting( 'triton_feedback', 'trifi_param', array( $this, 'sanitize_setting_trifi_param' ) );
 
+		// Firebase name
+		add_settings_field( 'trifi_firebase', 'Firebase Name', array( $this, 'render_setting_trifi_firebase' ), 'triton_feedback', 'general' );
+		register_setting( 'triton_feedback', 'trifi_firebase' );
+
 	}
 
 	public function render_setting_trifi_enabled(){
@@ -62,6 +66,11 @@ class TritonFeedbackSettings{
 
 	public function sanitize_setting_trifi_param( $input ){
 		return sanitize_title_with_dashes( $input, null, 'save' );
+	}
+
+	public function render_setting_trifi_firebase(){
+		$name = get_option( 'trifi_firebase' );
+		echo "<input type='text' name='trifi_firebase' id='trifi_firebase' value='" . $name . "' />";
 	}
 
 	public function __construct(){

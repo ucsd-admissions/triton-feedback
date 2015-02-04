@@ -1,1 +1,1 @@
-angular.module( 'tritonFeedback', ['ngCookies', 'ng.deviceDetector'] );
+angular.module( 'tritonFeedback', ['ngCookies', 'ng.deviceDetector', 'firebase'] );

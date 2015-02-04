@@ -1,7 +1,8 @@
 <a class='trifi-bug' data-ng-click='open()' data-ng-hide='visible'>Feedback</a>
 <div class='trifi-body'>
 	<h2 class='trifi-title'>Leave Feedback</h2>
-	<textarea class='trifi-textarea' data-ng-model='feedback.text'></textarea>
+	<div class='trifi-error' data-ng-show='error'>Database error.</div>
+	<textarea class='trifi-textarea' data-ng-model='feedback.message'></textarea>
 	<a class='trifi-submit-button' data-ng-click='submitFeedback()'>Submit</a>
 	<a class='trifi-close-button' data-ng-click='close()'>Close</a>
 </div>

@@ -29,7 +29,8 @@ class TritonFeedback{
 	public function enqueue_frontend(){
 		wp_enqueue_script( 'triton-feedback' );
 		wp_localize_script( 'triton-feedback', 'tritonFeedbackData', array(
-			'templateUrl' => plugins_url( 'src/template.html', __FILE__ )
+			'templateUrl' => plugins_url( 'src/template.html', __FILE__ ),
+			'firebase' => get_option( 'trifi_firebase' )
 		) );
 		wp_enqueue_style( 'triton-feedback' );
 	}
