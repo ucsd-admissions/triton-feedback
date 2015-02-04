@@ -37,7 +37,7 @@ class TritonFeedback{
 	public function print_template(){
 		?>
 
-		<div class='triton-feedback' data-ng-app='tritonFeedback' data-ng-controller='mainCtrl' data-ng-include='getTemplate()' data-ng-class="{visible:visible}"></div>
+		<div id='triton-feedback' data-ng-controller='mainCtrl' data-ng-include='getTemplate()' data-ng-class="{visible:visible}"></div>
 
 		<?php
 	}

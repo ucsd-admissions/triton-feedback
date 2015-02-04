@@ -29,7 +29,8 @@ var config = {
 		],
 		src: [
 			'src/app.js',
-			'src/*/*.js'
+			'src/*/*.js',
+			'src/boot.js'
 		],
 		dest: 'js',
 		name: 'tritonfeedback.min.js'
