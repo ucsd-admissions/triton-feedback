@@ -1,17 +1,4 @@
-.triton-feedback{
-	@include transition( right 300ms ease );
-	position:fixed;
-	top:0;
-	right:-$app-width;
-	bottom:0;
-	height:100%;
-	width:$app-width;
-	z-index:100;
-
-	&.visible{
-		right:0;
-	}
-
+#triton-feedback{
 	*{
 		font-family:'Helvetica Neue', 'Arial', sans-serif;
 	}
@@ -24,24 +11,39 @@
 .trifi-bug{
 	@include transform( rotate( -90deg ) );
 	@include transform-origin( 0 100% );
-	@include box-shadow( 0 -5px 10px rgba(0,0,0,0.13) );
-	position:absolute;
-	z-index:2;
-	top:50%;
-	left:0;
-	padding:10px;
+	@include box-sizing( border-box );
+	position:fixed;
+	bottom:20px;
+	left:100%;
+	font-size:1.1em;
+	z-index:101;
 	background-color:#eee;
-	font-weight:500;
-	color:#222;
-	font-size:1.2em;
+	border:1px solid #222;
+	padding:1em;
+	text-align:center;
 }
 
 .trifi-body{
 	@extend %clearfix;
-	@include box-shadow( 0 -5px 10px rgba(0,0,0,0.13) );
-	padding:2em;
-	background-color:#eee;
+	@include transition( right 300ms ease );
+	position:fixed;
+	top:0;
+	right:-90%;
 	height:100%;
+	background-color:#eee;
+	width:90%;
+	padding:2em;
+	z-index:100;
+	border-left:1px solid #222;
+
+	@media screen and (min-width:#{$app-width + 25px}){
+		right:-$app-width;
+		width:$app-width;
+	}
+
+	#triton-feedback.visible &{
+		right:0;
+	}
 }
 
 .trifi-title{
@@ -59,22 +61,16 @@
 	font-size:1.2em;
 }
 
-.trifi-submit{
-	@include box-shadow( -5px 5px 0 #ccc );
-	position:relative;
-	display:block;
-	float:right;
-	padding:1em;
-	background-color:#fff;
+.trifi-submit-button{
+	@extend %trifi-button;
+	background-color:#efb203;
 	border:1px solid #222;
+	float:right;
+}
 
-	&:hover{
-		@include box-shadow( -5px 5px 0 #999 );
-	}
-
-	&:active{
-		@include box-shadow( none );
-		top:5px;
-		left:-5px;
-	}
+.trifi-close-button{
+	@extend %trifi-button;
+	background-color:#ccc;
+	border:1px solid #222;
+	float:left;
 }

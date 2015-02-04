@@ -43,7 +43,7 @@ describe( 'Main Controller', function(){
 			var $scope = {};
 			var $cookies = { triton_feedback: true };
 			var mainCtrl = $controller( 'mainCtrl', { $scope: $scope, $cookies: $cookies } );
-			$scope.toggleVisibility();
+			$scope.open();
 			expect( $scope.visible ).toBe( true );
 		});
 

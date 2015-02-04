@@ -1,6 +1,7 @@
-<a class='trifi-bug' data-ng-click='toggleVisibility()'>Feedback</a>
+<a class='trifi-bug' data-ng-click='open()' data-ng-hide='visible'>Feedback</a>
 <div class='trifi-body'>
 	<h2 class='trifi-title'>Leave Feedback</h2>
 	<textarea class='trifi-textarea' data-ng-model='feedback.text'></textarea>
-	<a class='trifi-submit' data-ng-click='submitFeedback()'>Submit</a>
+	<a class='trifi-submit-button' data-ng-click='submitFeedback()'>Submit</a>
+	<a class='trifi-close-button' data-ng-click='close()'>Close</a>
 </div>
