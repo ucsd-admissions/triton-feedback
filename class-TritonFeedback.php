@@ -10,7 +10,7 @@ class TritonFeedback{
 		$param_exists = $param && isset( $_GET[ $param ] );
 		if( $param_exists ){
 			// Set cookie for next page load; expires at end of session
-			setcookie( 'triton_feedback_access', true, 0, '/' );
+			setcookie( 'triton_feedback_access', $param, 0, '/' );
 
 			$hashed_ip = md5( $_SERVER['REMOTE_ADDR'] );
 			setcookie( 'triton_feedback_session', $hashed_ip, 0, '/' );
