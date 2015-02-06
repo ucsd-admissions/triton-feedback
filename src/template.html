@@ -2,7 +2,7 @@
 <div class='trifi-frame'>
 	<div class='trifi-body'>
 		<h2 class='trifi-title'>Leave Feedback</h2>
-		<p class='trifi-message'>Thanks for helping us test the new Triton Day website! As you navigate the site, jot down your thoughts and impressions here, hitting "Submit" after each. You can be as specific or general as you like. Your identity will not be recorded, but some specs like your browser, device, and operating system will. Your feedback will help make the Triton Day website a success for everyone!</p>
+		<p class='trifi-instructions' ng-bind-html='instructions'></p>
 		<div class='trifi-error' data-ng-show='error'>Database error.</div>
 		<p class='trifi-success' data-ng-show='showConfirmation'>Thanks! Your feedback was submitted. Feel free to add more!</p>
 		<span class='trifi-label'>I noticed something that was:</span>

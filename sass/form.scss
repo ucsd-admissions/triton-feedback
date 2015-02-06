@@ -1,10 +1,7 @@
 #triton-feedback{
 	*{
 		font-family:'Helvetica Neue', 'Arial', sans-serif;
-	}
-
-	a{
-		color:#222;
+		color:#333;
 	}
 }
 
@@ -63,6 +60,12 @@
 
 .trifi-label{
 	font-weight:bold;
+}
+
+.trifi-instructions{
+	padding:1em 0 2em 0;
+	margin:0 0 2em 0;
+	border-bottom:1px solid #222;
 }
 
 .trifi-textarea{

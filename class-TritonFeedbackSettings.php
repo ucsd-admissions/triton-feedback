@@ -46,6 +46,10 @@ class TritonFeedbackSettings{
 		add_settings_field( 'trifi_firebase', 'Firebase Name', array( $this, 'render_setting_trifi_firebase' ), 'triton_feedback', 'general' );
 		register_setting( 'triton_feedback', 'trifi_firebase' );
 
+		// Identity options
+		add_settings_field( 'trifi_instructions', 'Instructions', array( $this, 'render_setting_trifi_instructions' ), 'triton_feedback', 'general' );		
+		register_setting( 'triton_feedback', 'trifi_instructions' );
+
 	}
 
 	public function render_setting_trifi_enabled(){
@@ -71,6 +75,11 @@ class TritonFeedbackSettings{
 	public function render_setting_trifi_firebase(){
 		$name = get_option( 'trifi_firebase' );
 		echo "<input type='text' name='trifi_firebase' id='trifi_firebase' value='" . $name . "' />";
+	}
+
+	public function render_setting_trifi_instructions(){
+		$identities = get_option( 'trifi_instructions' );
+		echo "<textarea name='trifi_instructions' id='trifi_instructions'>" . $identities . "</textarea>";
 	}
 
 	public function __construct(){

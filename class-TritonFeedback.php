@@ -30,7 +30,8 @@ class TritonFeedback{
 		wp_enqueue_script( 'triton-feedback' );
 		wp_localize_script( 'triton-feedback', 'tritonFeedbackData', array(
 			'templateUrl' => plugins_url( 'src/template.html', __FILE__ ),
-			'firebase' => get_option( 'trifi_firebase' )
+			'firebase' => get_option( 'trifi_firebase' ),
+			'instructions' => nl2br( get_option( 'trifi_instructions' ) ),
 		) );
 		wp_enqueue_style( 'triton-feedback' );
 	}

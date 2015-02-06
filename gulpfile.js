@@ -25,7 +25,7 @@ var config = {
 	js: {
 		watch: 'src/**/*.js',
 		deps: [
-			'lib/ng-device-detector.min.js'
+			'lib/*.js'
 		],
 		src: [
 			'src/app.js',

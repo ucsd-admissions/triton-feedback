@@ -1,4 +1,4 @@
-angular.module( 'tritonFeedback' ).controller( 'mainCtrl', function( $scope, $cookies, tritonFeedbackData, deviceDetector, firebaseManager, $timeout ){
+angular.module( 'tritonFeedback' ).controller( 'mainCtrl', function( $scope, $cookies, tritonFeedbackData, deviceDetector, firebaseManager, $timeout, $sce ){
 	'use strict';
 
 	var _this = this;
@@ -132,6 +132,10 @@ angular.module( 'tritonFeedback' ).controller( 'mainCtrl', function( $scope, $co
 		}
 
 		$scope.wp = tritonFeedbackData;
+
+		$scope.instructions = $scope.wp.instructions;
+
+		console.log( $scope.instructions );
 
 		var connected = $scope.firebase.connect();
 		if( ! connected ){
