@@ -1,9 +1,8 @@
 %trifi-button{
 	@include box-shadow( -5px 5px 0 rgba(0,0,0,0.2) );
-	position:relative;
 	display:block;
 	padding:1em;
-	
+
 	&:hover{
 		@include box-shadow( -5px 5px 0 rgba(0,0,0,0.6) );
 	}
