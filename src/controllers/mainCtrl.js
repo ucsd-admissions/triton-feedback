@@ -135,8 +135,6 @@ angular.module( 'tritonFeedback' ).controller( 'mainCtrl', function( $scope, $co
 
 		$scope.instructions = $scope.wp.instructions;
 
-		console.log( $scope.instructions );
-
 		var connected = $scope.firebase.connect();
 		if( ! connected ){
 			$scope.throw();
