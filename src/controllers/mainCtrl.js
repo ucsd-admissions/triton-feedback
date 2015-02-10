@@ -67,12 +67,10 @@ angular.module( 'tritonFeedback' ).controller( 'mainCtrl', function( $scope, $co
 
 	$scope.open = function(){
 		$scope.visible = true;
-		angular.element( document.getElementsByTagName( 'body' ) ).css( 'overflow', 'hidden' );
 	};
 
 	$scope.close = function(){
 		$scope.visible = false;
-		angular.element( document.getElementsByTagName( 'body' ) ).css( 'overflow', '' );
 	};
 
 	$scope.submitFeedback = function(){
