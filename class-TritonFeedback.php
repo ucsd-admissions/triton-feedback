@@ -51,7 +51,9 @@ class TritonFeedback{
 		}
 
 		$this->maybe_set_cookie();
-		
+
+		header('X-Robots-Tag: noindex');
+
 		add_action( 'wp_enqueue_scripts', array( $this, 'register_frontend' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_frontend' ) );
 		add_action( 'wp_footer', array( $this, 'print_template' ) );
